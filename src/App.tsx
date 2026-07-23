@@ -7,6 +7,7 @@ import TimelineBar from "./components/TimelineBar";
 import FactionGrid from "./components/FactionGrid";
 import FactionDetailModal from "./components/FactionDetailModal";
 import OnboardingGuide from "./components/OnboardingGuide";
+import SpaceIntro from "./components/SpaceIntro";
 
 const ONBOARDING_STORAGE_KEY = "grimdark-compendium:onboarding-seen";
 
@@ -25,6 +26,7 @@ export default function App() {
   );
   const [onboardingOpen, setOnboardingOpen] = useState(() => !hasSeenOnboarding);
   const [onboardingStepIdx, setOnboardingStepIdx] = useState(0);
+  const [entered, setEntered] = useState(false);
   const era = ERAS[eraIdx];
 
   const factionsSorted = useMemo(() => {
@@ -129,6 +131,8 @@ export default function App() {
           onClose={closeOnboarding}
         />
       )}
+
+      {!entered && <SpaceIntro onEnter={() => setEntered(true)} />}
     </div>
   );
 }
