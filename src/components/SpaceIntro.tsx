@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useBodyScrollLock } from "../hooks/useBodyScrollLock";
 
 interface SpaceIntroProps {
   onEnter: () => void;
@@ -6,6 +7,8 @@ interface SpaceIntroProps {
 
 export default function SpaceIntro({ onEnter }: SpaceIntroProps) {
   const [leaving, setLeaving] = useState(false);
+
+  useBodyScrollLock(true);
 
   useEffect(() => {
     const handleKeyDown = () => handleEnter();

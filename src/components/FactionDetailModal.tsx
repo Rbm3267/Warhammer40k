@@ -1,6 +1,7 @@
 import { X } from "lucide-react";
 import type { Era } from "../data/eras";
 import type { Faction } from "../data/factions";
+import { useBodyScrollLock } from "../hooks/useBodyScrollLock";
 import GlossaryText from "./GlossaryText";
 
 interface FactionDetailModalProps {
@@ -16,6 +17,8 @@ export default function FactionDetailModal({
   activeEraId,
   onClose,
 }: FactionDetailModalProps) {
+  useBodyScrollLock(true);
+
   return (
     <div
       className="fixed inset-0 z-40 flex items-end sm:items-center justify-center bg-black/70 px-4"
