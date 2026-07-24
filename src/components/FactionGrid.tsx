@@ -1,5 +1,4 @@
 import { useRef, useState, type CSSProperties, type MouseEvent } from "react";
-import { ChevronRight } from "lucide-react";
 import type { Faction } from "../data/factions";
 
 interface FactionGridProps {
@@ -8,9 +7,9 @@ interface FactionGridProps {
   onSelectFaction: (id: string) => void;
 }
 
-const MAX_TILT_DEG = 9;
+const MAX_TILT_DEG = 6;
 
-function FactionCard({
+function FactionSeal({
   faction,
   active,
   onSelect,
@@ -50,48 +49,44 @@ function FactionCard({
       onClick={onSelect}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="text-left p-3 sm:p-4 rounded-sm border"
+      className="group flex flex-col items-center px-1 py-3 text-center"
       style={{
-        borderColor: active ? faction.color : "#2A2D33",
-        background: active ? `${faction.color}14` : "#111214cc",
-        opacity: active ? 1 : 0.45,
-        transform: `perspective(700px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg) scale3d(${tilt.hovering ? 1.02 : 1}, ${tilt.hovering ? 1.02 : 1}, 1)`,
+        opacity: active ? 1 : 0.4,
+        transform: `perspective(700px) rotateX(${tilt.rotateX}deg) rotateY(${tilt.rotateY}deg)`,
         transition: tilt.hovering
           ? "transform 60ms linear"
           : "transform 300ms ease, opacity 300ms ease",
-        boxShadow: tilt.hovering ? "0 20px 40px -20px rgba(0,0,0,0.7)" : "none",
         willChange: "transform",
       }}
     >
       <div
-        className={`w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full text-base sm:text-lg font-bold mb-3 ${
+        className={`w-16 h-16 sm:w-20 sm:h-20 rounded-full flex items-center justify-center text-xl sm:text-2xl font-bold mb-3 transition-transform duration-300 group-hover:scale-110 ${
           active ? "animate-pulse-glow" : ""
         }`}
         style={{
-          border: `1.5px solid ${faction.color}`,
-          color: faction.color,
+          border: `1.5px solid ${active ? faction.color : "#3A3D42"}`,
+          color: active ? faction.color : "#6B6E74",
           fontFamily: "'Cinzel', serif",
-          background: `radial-gradient(circle, ${faction.color}22 0%, transparent 70%)`,
+          background: `radial-gradient(circle, ${faction.color}1e 0%, transparent 72%)`,
           ...pulseStyle,
         }}
       >
         {faction.sigil}
       </div>
       <div
-        className="font-bold text-sm sm:text-base"
+        className="font-bold text-sm sm:text-base leading-tight"
         style={{ fontFamily: "'Cinzel', serif", color: "#D8D2C4" }}
       >
         {faction.name}
       </div>
       <div
-        className="text-[10px] sm:text-xs mt-1 flex items-center gap-1"
+        className="text-[9px] sm:text-[10px] mt-1"
         style={{
           color: active ? faction.color : "#6B6E74",
           fontFamily: "'JetBrains Mono', monospace",
         }}
       >
         {active ? "active this era" : "dormant this era"}
-        <ChevronRight size={12} />
       </div>
     </button>
   );
@@ -99,11 +94,11 @@ function FactionCard({
 
 export default function FactionGrid({ factions, activeEraId, onSelectFaction }: FactionGridProps) {
   return (
-    <div className="px-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mt-4">
+    <div className="px-4 sm:px-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-x-2 gap-y-5 mt-2 max-w-6xl mx-auto">
       {factions.map((f) => {
         const active = f.events.some((e) => e.era === activeEraId);
         return (
-          <FactionCard
+          <FactionSeal
             key={f.id}
             faction={f}
             active={active}

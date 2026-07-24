@@ -2,6 +2,8 @@ import { ChevronLeft, ChevronRight, Compass, X } from "lucide-react";
 import type { Era } from "../data/eras";
 import type { Faction } from "../data/factions";
 import type { OnboardingStep } from "../data/onboarding";
+import { useBodyScrollLock } from "../hooks/useBodyScrollLock";
+import { GothicCorners } from "./GothicOrnaments";
 
 interface OnboardingGuideProps {
   steps: OnboardingStep[];
@@ -20,6 +22,8 @@ export default function OnboardingGuide({
   onGoToStep,
   onClose,
 }: OnboardingGuideProps) {
+  useBodyScrollLock(true);
+
   const step = steps[stepIndex];
   const era = eras.find((e) => e.id === step.eraId);
   const faction = step.factionId ? factions.find((f) => f.id === step.factionId) : undefined;
@@ -32,10 +36,15 @@ export default function OnboardingGuide({
       onClick={onClose}
     >
       <div
-        className="w-full sm:max-w-md rounded-sm border p-6"
-        style={{ background: "#0F1012", borderColor: "#C9A227" }}
+        className="relative w-full sm:max-w-md rounded-sm border p-6"
+        style={{
+          background: "#0F1012",
+          borderColor: "#C9A22799",
+          boxShadow: "0 0 60px -12px #C9A22755",
+        }}
         onClick={(e) => e.stopPropagation()}
       >
+        <GothicCorners />
         <div className="flex justify-between items-start mb-4">
           <div className="flex items-center gap-2" style={{ color: "#C9A227" }}>
             <Compass size={16} />
