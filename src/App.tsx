@@ -39,6 +39,7 @@ export default function App() {
   }, [era]);
 
   const selectedFaction = FACTIONS.find((f) => f.id === selected);
+  const tint = selectedFaction ? selectedFaction.color : era.accentColor;
 
   const goToOnboardingStep = (index: number) => {
     if (index < 0 || index >= ONBOARDING_STEPS.length) return;
@@ -63,10 +64,10 @@ export default function App() {
       className="min-h-screen w-full pb-24"
       style={{ color: "#D8D2C4", fontFamily: "'Crimson Pro', serif" }}
     >
-      <SpaceBackground />
+      <SpaceBackground tint={tint} />
 
       <header className="px-6 pt-10 pb-6 border-b" style={{ borderColor: "#2A2D33" }}>
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
           <div>
             <div
               className="text-xs tracking-[0.3em] uppercase mb-2"
@@ -88,7 +89,7 @@ export default function App() {
           </div>
           <button
             onClick={startOnboarding}
-            className="flex items-center gap-2 flex-shrink-0 text-xs px-3 py-2 rounded-sm border whitespace-nowrap"
+            className="flex items-center justify-center gap-2 flex-shrink-0 w-full sm:w-auto text-xs px-3 py-2.5 sm:py-2 rounded-sm border whitespace-nowrap"
             style={{
               borderColor: "#C9A227",
               color: "#C9A227",

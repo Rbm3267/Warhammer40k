@@ -47,7 +47,7 @@ export default function GlossaryTermSpan({ data, children }: GlossaryTermSpanPro
       {open && (
         <span
           role="tooltip"
-          className="absolute z-50 left-1/2 -translate-x-1/2 bottom-full mb-2 w-56 rounded-sm border p-3 text-left shadow-lg pointer-events-none"
+          className="absolute z-50 left-1/2 -translate-x-1/2 bottom-full mb-2 w-48 sm:w-56 max-w-[80vw] rounded-sm border p-3 text-left shadow-lg pointer-events-none"
           style={{ background: "#0F1012", borderColor: "#C9A227" }}
         >
           <span

@@ -1,4 +1,4 @@
-import { useRef, useState, type MouseEvent } from "react";
+import { useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import { ChevronRight } from "lucide-react";
 import type { Faction } from "../data/factions";
 
@@ -37,13 +37,20 @@ function FactionCard({
 
   const handleMouseLeave = () => setTilt({ rotateX: 0, rotateY: 0, hovering: false });
 
+  const pulseStyle = active
+    ? ({
+        "--pulse-color": `${faction.color}59`,
+        "--pulse-color-inset": `${faction.color}40`,
+      } as CSSProperties)
+    : undefined;
+
   return (
     <button
       ref={ref}
       onClick={onSelect}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="text-left p-4 rounded-sm border"
+      className="text-left p-3 sm:p-4 rounded-sm border"
       style={{
         borderColor: active ? faction.color : "#2A2D33",
         background: active ? `${faction.color}14` : "#111214cc",
@@ -57,11 +64,15 @@ function FactionCard({
       }}
     >
       <div
-        className="w-9 h-9 flex items-center justify-center rounded-full text-sm font-bold mb-3"
+        className={`w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full text-base sm:text-lg font-bold mb-3 ${
+          active ? "animate-pulse-glow" : ""
+        }`}
         style={{
-          border: `1px solid ${faction.color}`,
+          border: `1.5px solid ${faction.color}`,
           color: faction.color,
           fontFamily: "'Cinzel', serif",
+          background: `radial-gradient(circle, ${faction.color}22 0%, transparent 70%)`,
+          ...pulseStyle,
         }}
       >
         {faction.sigil}
@@ -73,7 +84,7 @@ function FactionCard({
         {faction.name}
       </div>
       <div
-        className="text-xs mt-1 flex items-center gap-1"
+        className="text-[10px] sm:text-xs mt-1 flex items-center gap-1"
         style={{
           color: active ? faction.color : "#6B6E74",
           fontFamily: "'JetBrains Mono', monospace",
@@ -88,7 +99,7 @@ function FactionCard({
 
 export default function FactionGrid({ factions, activeEraId, onSelectFaction }: FactionGridProps) {
   return (
-    <div className="px-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mt-4">
+    <div className="px-6 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 mt-4">
       {factions.map((f) => {
         const active = f.events.some((e) => e.era === activeEraId);
         return (

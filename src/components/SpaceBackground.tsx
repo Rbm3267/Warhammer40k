@@ -15,6 +15,16 @@ interface Star {
 const STAR_COLORS = ["#F5F2E8", "#F5F2E8", "#F5F2E8", "#F5F2E8", "#C9A227", "#8FB4D9"];
 const PARALLAX_PX = 34;
 const PARALLAX_EASE = 0.06;
+const TINT_EASE = 0.025;
+const DEFAULT_TINT = "#C9A227";
+
+function hexToRgb(hex: string): [number, number, number] {
+  const clean = hex.replace("#", "");
+  const r = parseInt(clean.substring(0, 2), 16);
+  const g = parseInt(clean.substring(2, 4), 16);
+  const b = parseInt(clean.substring(4, 6), 16);
+  return [Number.isNaN(r) ? 0 : r, Number.isNaN(g) ? 0 : g, Number.isNaN(b) ? 0 : b];
+}
 
 function generateStars(width: number, height: number, density: number): Star[] {
   const count = Math.floor((width * height) / density);
@@ -30,8 +40,18 @@ function generateStars(width: number, height: number, density: number): Star[] {
   }));
 }
 
-export default function SpaceBackground() {
+interface SpaceBackgroundProps {
+  /** Hex color the ambient nebula wash eases toward — reflects the active era or focused faction. */
+  tint?: string;
+}
+
+export default function SpaceBackground({ tint = DEFAULT_TINT }: SpaceBackgroundProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const targetTintRef = useRef<[number, number, number]>(hexToRgb(tint));
+
+  useEffect(() => {
+    targetTintRef.current = hexToRgb(tint);
+  }, [tint]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -49,6 +69,11 @@ export default function SpaceBackground() {
 
     const targetMouse = { x: 0, y: 0 };
     const mouse = { x: 0, y: 0 };
+    const currentTint = {
+      r: targetTintRef.current[0],
+      g: targetTintRef.current[1],
+      b: targetTintRef.current[2],
+    };
 
     function resize() {
       if (!canvas) return;
@@ -78,12 +103,12 @@ export default function SpaceBackground() {
       ctx.restore();
     }
 
-    function drawNebulae(parallaxX: number, parallaxY: number) {
+    function drawNebulae(parallaxX: number, parallaxY: number, tintColor: string) {
       if (!ctx) return;
       const glows = [
-        { x: width * 0.22, y: height * 0.28, r: width * 0.5, color: "rgba(107, 45, 139, 0.12)" },
-        { x: width * 0.78, y: height * 0.68, r: width * 0.45, color: "rgba(62, 111, 168, 0.09)" },
-        { x: width * 0.5, y: height * 0.9, r: width * 0.4, color: "rgba(201, 162, 39, 0.05)" },
+        { x: width * 0.22, y: height * 0.28, r: width * 0.5, color: "rgba(107, 45, 139, 0.1)" },
+        { x: width * 0.78, y: height * 0.68, r: width * 0.45, color: "rgba(62, 111, 168, 0.07)" },
+        { x: width * 0.5, y: height * 0.42, r: width * 0.6, color: tintColor },
       ];
       for (const glow of glows) {
         const x = glow.x + parallaxX * 0.3;
@@ -106,10 +131,16 @@ export default function SpaceBackground() {
       const parallaxX = mouse.x * PARALLAX_PX * dpr;
       const parallaxY = mouse.y * PARALLAX_PX * dpr;
 
+      const [tr, tg, tb] = targetTintRef.current;
+      currentTint.r += (tr - currentTint.r) * TINT_EASE;
+      currentTint.g += (tg - currentTint.g) * TINT_EASE;
+      currentTint.b += (tb - currentTint.b) * TINT_EASE;
+      const tintColor = `rgba(${currentTint.r | 0}, ${currentTint.g | 0}, ${currentTint.b | 0}, 0.11)`;
+
       ctx.fillStyle = "#05060A";
       ctx.fillRect(0, 0, width, height);
       drawGalacticBand(parallaxX, parallaxY);
-      drawNebulae(parallaxX, parallaxY);
+      drawNebulae(parallaxX, parallaxY, tintColor);
 
       for (const star of stars) {
         const twinkle = prefersReducedMotion
