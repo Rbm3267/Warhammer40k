@@ -27,7 +27,11 @@ export default function FactionDetailModal({
     >
       <div
         className="relative w-full sm:max-w-xl max-h-[80vh] overflow-y-auto rounded-sm border p-6"
-        style={{ background: "#0F1012", borderColor: faction.color }}
+        style={{
+          background: "#0F1012",
+          borderColor: `${faction.color}99`,
+          boxShadow: `0 0 60px -12px ${faction.color}66`,
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         <GothicCorners color={faction.color} />

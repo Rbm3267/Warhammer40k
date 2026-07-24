@@ -37,7 +37,11 @@ export default function OnboardingGuide({
     >
       <div
         className="relative w-full sm:max-w-md rounded-sm border p-6"
-        style={{ background: "#0F1012", borderColor: "#C9A227" }}
+        style={{
+          background: "#0F1012",
+          borderColor: "#C9A22799",
+          boxShadow: "0 0 60px -12px #C9A22755",
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         <GothicCorners />
