@@ -3,6 +3,7 @@ import type { Era } from "../data/eras";
 import type { Faction } from "../data/factions";
 import { useBodyScrollLock } from "../hooks/useBodyScrollLock";
 import GlossaryText from "./GlossaryText";
+import { GothicCorners } from "./GothicOrnaments";
 
 interface FactionDetailModalProps {
   faction: Faction;
@@ -25,10 +26,17 @@ export default function FactionDetailModal({
       onClick={onClose}
     >
       <div
-        className="w-full sm:max-w-xl max-h-[80vh] overflow-y-auto rounded-sm border p-6"
+        className="relative w-full sm:max-w-xl max-h-[80vh] overflow-y-auto rounded-sm border p-6"
         style={{ background: "#0F1012", borderColor: faction.color }}
         onClick={(e) => e.stopPropagation()}
       >
+        <GothicCorners color={faction.color} />
+        <div
+          className="text-[9px] tracking-[0.3em] uppercase text-center mb-3"
+          style={{ fontFamily: "'JetBrains Mono', monospace", color: "#4A4D52" }}
+        >
+          ++ Archive record retrieved ++
+        </div>
         <div className="flex justify-between items-start mb-4">
           <div className="flex items-center gap-3">
             <div

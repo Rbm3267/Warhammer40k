@@ -1,6 +1,7 @@
 import { useRef, useState, type CSSProperties, type MouseEvent } from "react";
 import { ChevronRight } from "lucide-react";
 import type { Faction } from "../data/factions";
+import { GothicCorners } from "./GothicOrnaments";
 
 interface FactionGridProps {
   factions: Faction[];
@@ -50,7 +51,7 @@ function FactionCard({
       onClick={onSelect}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="text-left p-3 sm:p-4 rounded-sm border"
+      className="relative text-left p-3 sm:p-4 rounded-sm border"
       style={{
         borderColor: active ? faction.color : "#2A2D33",
         background: active ? `${faction.color}14` : "#111214cc",
@@ -63,6 +64,7 @@ function FactionCard({
         willChange: "transform",
       }}
     >
+      {active && <GothicCorners color={faction.color} size={10} />}
       <div
         className={`w-12 h-12 sm:w-14 sm:h-14 flex items-center justify-center rounded-full text-base sm:text-lg font-bold mb-3 ${
           active ? "animate-pulse-glow" : ""
