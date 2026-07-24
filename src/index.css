@@ -3,3 +3,43 @@
 body {
   margin: 0;
 }
+
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 0 var(--pulse-color, rgba(201, 162, 39, 0.35)),
+      inset 0 0 10px var(--pulse-color-inset, rgba(201, 162, 39, 0.15));
+  }
+  50% {
+    box-shadow:
+      0 0 22px 4px var(--pulse-color, rgba(201, 162, 39, 0.35)),
+      inset 0 0 14px var(--pulse-color-inset, rgba(201, 162, 39, 0.25));
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 2.6s ease-in-out infinite;
+}
+
+@keyframes fade-slide-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade-slide-in {
+  animation: fade-slide-in 0.35s ease-out;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-pulse-glow,
+  .animate-fade-slide-in {
+    animation: none;
+  }
+}
