@@ -8,6 +8,7 @@ import FactionGrid from "./components/FactionGrid";
 import FactionDetailModal from "./components/FactionDetailModal";
 import OnboardingGuide from "./components/OnboardingGuide";
 import SpaceIntro from "./components/SpaceIntro";
+import SpaceBackground from "./components/SpaceBackground";
 
 const ONBOARDING_STORAGE_KEY = "grimdark-compendium:onboarding-seen";
 
@@ -60,8 +61,10 @@ export default function App() {
   return (
     <div
       className="min-h-screen w-full pb-24"
-      style={{ background: "#0B0C0E", color: "#D8D2C4", fontFamily: "'Crimson Pro', serif" }}
+      style={{ color: "#D8D2C4", fontFamily: "'Crimson Pro', serif" }}
     >
+      <SpaceBackground />
+
       <header className="px-6 pt-10 pb-6 border-b" style={{ borderColor: "#2A2D33" }}>
         <div className="flex items-start justify-between gap-4">
           <div>
